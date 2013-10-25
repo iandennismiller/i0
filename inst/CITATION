@@ -12,6 +12,7 @@ citEntry(entry = "Article",
     year = year,
     journal = journal,
     note = vers,
+    url = "http://www.github.com/iandennismiller/i0",
 
     textVersion =
     paste0("Page-Gould, E. & Miller, I. D. (", year, "). ", article_title, ". ", journal, ".")
