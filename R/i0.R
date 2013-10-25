@@ -76,6 +76,16 @@ linmodEst <- function(x, y)
 ################
 # public methods
 
+#' Create an i0 object.
+#'
+#' @param x input model function specification
+#' y data frame
+#' @return i0 object
+#' @keywords character
+#' @export
+#' @examples
+#' data(cats, package="MASS")
+#' i0(Hwt~Bwt*Sex, data=cats)
 i0.default <- function(x, y, ...)
 {
     x <- as.matrix(x)

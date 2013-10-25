@@ -1,6 +1,6 @@
 Package: i0
 Title: i-zero
-Description: The i-zero implementation from Page-Gould & Miller (2013).
+Description: Page-Gould, E. & Miller, I. D. (2013) implementation of i-zero.
 Version: 0.1
 Author: Ian Dennis Miller <i.miller@utoronto.ca>
 Maintainer: Ian Dennis Miller <i.miller@utoronto.ca>
@@ -8,7 +8,6 @@ License: MIT
 Depends:
     R (>= 2.15)
 Imports:
-    ggplot2,
-    lmer
+    ggplot2
 Collate:
     'i0.R'

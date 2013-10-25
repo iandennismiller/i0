@@ -1,0 +1,18 @@
+citHeader("To cite package 'i0' in publications use:")
+
+year = "in preparation"
+journal = "in preparation"
+vers = paste("R package version", meta$Version)
+article_title = "Please contact authors for citation"
+
+citEntry(entry = "Article",
+    title = article_title,
+    author = personList(as.person("Elizabeth Page-Gould"),
+                     as.person("Ian Dennis Miller")),
+    year = year,
+    journal = journal,
+    note = vers,
+
+    textVersion =
+    paste0("Page-Gould, E. & Miller, I. D. (", year, "). ", article_title, ". ", journal, ".")
+    )
