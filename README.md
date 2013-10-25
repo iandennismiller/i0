@@ -1,11 +1,11 @@
 # i0
 
-# installation
+## installation
 
     install.packages("devtools")
-    install_github("iandennismiller/i0")
+    install_github("i0", "iandennismiller")
 
-# usage
+## usage
 
     library('i0')
 
@@ -22,8 +22,9 @@
     summary(my_model)
     summary(i0(Hwt~Bwt*Sex, data=cats))
 
-# development
+## development
 
-    git clone http://www.github.com/iandennismiller/io
+    git clone http://www.github.com/iandennismiller/i0
+    cd i0
     make test
-    R -f tests/test_git_install.R
+    make check
