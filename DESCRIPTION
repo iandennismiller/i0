@@ -5,3 +5,5 @@ Version: 0.1
 Author: Ian Dennis Miller <i.miller@utoronto.ca>
 Maintainer: Ian Dennis Miller <i.miller@utoronto.ca>
 License: MIT
+Collate:
+    'i0.R'
