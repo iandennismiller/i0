@@ -3,34 +3,8 @@
 
 i0 <- function(x, ...) UseMethod("i0")
 
-linmodEst <- function(x, y)
-{
-    ## compute QR-decomposition of x
-    qx <- qr(x)
-    ## compute (x’x)^(-1) x’y
-    coef <- solve.qr(qx, y)
-    ## degrees of freedom and standard deviation of residuals
-    df <- nrow(x)-ncol(x)
-    sigma2 <- sum((y - x%*%coef)^2)/df
-    ## compute sigma^2 * (x’x)^-1
-    vcov <- sigma2 * chol2inv(qx$qr)
-    colnames(vcov) <- rownames(vcov) <- colnames(x)
-    list(coefficients = coef,
-         vcov = vcov,
-         sigma = sqrt(sigma2),
-         df = df)
-}
-
-i0.default <- function(x, y, ...)
-{
-    x <- as.matrix(x)
-    y <- as.numeric(y)
-    est <- linmodEst(x, y)
-    est$fitted.values <- as.vector(x %*% est$coefficients)
-    est$residuals <- y - est$fitted.values
-    est$call <- match.call()
-    class(est) <- "i0"
-est }
+######
+# generic handlers
 
 print.i0 <- function(x, ...)
 {
@@ -62,17 +36,6 @@ print.summary.i0 <- function(x, ...)
     printCoefmat(x$coefficients, P.value=TRUE, has.Pvalue=TRUE)
 }
 
-i0.formula <- function(formula, data=list(), ...)
-{
-    mf <- model.frame(formula=formula, data=data)
-    x <- model.matrix(attr(mf, "terms"), data=mf)
-    y <- model.response(mf)
-    est <- i0.default(x, y, ...)
-    est$call <- match.call()
-    est$formula <- formula
-    est
-}
-
 predict.i0 <- function(object, newdata=NULL, ...)
 {
     if(is.null(newdata))
@@ -88,3 +51,49 @@ predict.i0 <- function(object, newdata=NULL, ...)
         y <- as.vector(x %*% coef(object))
     }
 y }
+
+#################
+# private methods
+
+linmodEst <- function(x, y)
+{
+    ## compute QR-decomposition of x
+    qx <- qr(x)
+    ## compute (x’x)^(-1) x’y
+    coef <- solve.qr(qx, y)
+    ## degrees of freedom and standard deviation of residuals
+    df <- nrow(x)-ncol(x)
+    sigma2 <- sum((y - x%*%coef)^2)/df
+    ## compute sigma^2 * (x’x)^-1
+    vcov <- sigma2 * chol2inv(qx$qr)
+    colnames(vcov) <- rownames(vcov) <- colnames(x)
+    list(coefficients = coef,
+         vcov = vcov,
+         sigma = sqrt(sigma2),
+         df = df)
+}
+
+################
+# public methods
+
+i0.default <- function(x, y, ...)
+{
+    x <- as.matrix(x)
+    y <- as.numeric(y)
+    est <- linmodEst(x, y)
+    est$fitted.values <- as.vector(x %*% est$coefficients)
+    est$residuals <- y - est$fitted.values
+    est$call <- match.call()
+    class(est) <- "i0"
+est }
+
+i0.formula <- function(formula, data=list(), ...)
+{
+    mf <- model.frame(formula=formula, data=data)
+    x <- model.matrix(attr(mf, "terms"), data=mf)
+    y <- model.response(mf)
+    est <- i0.default(x, y, ...)
+    est$call <- match.call()
+    est$formula <- formula
+    est
+}

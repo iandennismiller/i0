@@ -1,7 +1,7 @@
 Package: i0
 Title: i-zero
-Description: The i-zero implementation
+Description: The i-zero implementation from Page-Gould & Miller (2013).
 Version: 0.1
-Author: Elizabeth Page-Gould <elizabeth.page-gould@utsc.utoronto.ca> and Ian Dennis Miller <i.miller@utoronto.ca>
+Author: Ian Dennis Miller <i.miller@utoronto.ca>
 Maintainer: Ian Dennis Miller <i.miller@utoronto.ca>
 License: MIT
