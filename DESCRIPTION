@@ -8,6 +8,8 @@ License: MIT
 Depends:
     R (>= 2.15)
 Imports:
-    ggplot2
+    ggplot2,
+    testthat,
+    roxygen2
 Collate:
     'i0.R'
