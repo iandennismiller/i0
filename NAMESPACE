@@ -1,1 +1,7 @@
 export(i0)
+export(print.i0)
+export(summary.i0)
+export(print.summary.i0)
+export(predict.i0)
+export(i0.formula)
+export(i0.default)
