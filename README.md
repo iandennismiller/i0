@@ -24,4 +24,6 @@
 
 # development
 
-    install.packages("roxygen2")
+    git clone http://www.github.com/iandennismiller/io
+    make test
+    R -f tests/test_git_install.R

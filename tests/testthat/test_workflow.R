@@ -1,6 +1,4 @@
-library(devtools)
-dev_mode()
-library('i0')
+context("workflow")
 
 data(cats, package="MASS")
 x = cbind(Const=1, Bwt=cats$Bwt)

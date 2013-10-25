@@ -1,8 +1,5 @@
 all:
 	echo "Done"
 
-install_dev:
-	R -f tests/installation.R
-
 test:
-	R -f tests/main.R
+	R -f tests/test_harness.R

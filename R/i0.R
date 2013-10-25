@@ -1,11 +1,23 @@
 
 # http://cran.r-project.org/doc/contrib/Leisch-CreatingPackages.pdf
 
+#' Create an i0 object.
+#'
+#' @param x input model function specification
+#' y data frame
+#' @return i0 object
+#' @keywords character
+#' @export
+#' @examples
+#' data(cats, package="MASS")
+#' i0(Hwt~Bwt*Sex, data=cats)
 i0 <- function(x, ...) UseMethod("i0")
 
 ######
 # generic handlers
 
+#' Create an i0 object.
+#'
 print.i0 <- function(x, ...)
 {
     cat("Call:\n")
@@ -14,6 +26,8 @@ print.i0 <- function(x, ...)
     print(x$coefficients)
 }
 
+#' Create an i0 object.
+#'
 summary.i0 <- function(object, ...)
 {
     se <- sqrt(diag(object$vcov))
@@ -28,6 +42,8 @@ summary.i0 <- function(object, ...)
 res
 }
 
+#' Create an i0 object.
+#'
 print.summary.i0 <- function(x, ...)
 {
     cat("Call:\n")
@@ -36,6 +52,8 @@ print.summary.i0 <- function(x, ...)
     printCoefmat(x$coefficients, P.value=TRUE, has.Pvalue=TRUE)
 }
 
+#' Create an i0 object.
+#'
 predict.i0 <- function(object, newdata=NULL, ...)
 {
     if(is.null(newdata))
@@ -82,7 +100,6 @@ linmodEst <- function(x, y)
 #' y data frame
 #' @return i0 object
 #' @keywords character
-#' @export
 #' @examples
 #' data(cats, package="MASS")
 #' i0(Hwt~Bwt*Sex, data=cats)
@@ -97,6 +114,8 @@ i0.default <- function(x, y, ...)
     class(est) <- "i0"
 est }
 
+#' Create an i0 object.
+#'
 i0.formula <- function(formula, data=list(), ...)
 {
     mf <- model.frame(formula=formula, data=data)
