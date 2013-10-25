@@ -8,9 +8,6 @@
 #' @return i0 object
 #' @keywords character
 #' @export
-#' @examples
-#' data(cats, package="MASS")
-#' i0(Hwt~Bwt*Sex, data=cats)
 i0 <- function(x, ...) UseMethod("i0")
 
 ######
@@ -100,9 +97,6 @@ linmodEst <- function(x, y)
 #' y data frame
 #' @return i0 object
 #' @keywords character
-#' @examples
-#' data(cats, package="MASS")
-#' i0(Hwt~Bwt*Sex, data=cats)
 i0.default <- function(x, y, ...)
 {
     x <- as.matrix(x)

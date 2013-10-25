@@ -13,9 +13,5 @@
 \description{
   Create an i0 object.
 }
-\examples{
-data(cats, package="MASS")
-i0(Hwt~Bwt*Sex, data=cats)
-}
 \keyword{character}
 
