@@ -3,8 +3,6 @@
 # installation
 
     install.packages("devtools")
-    library("devtools")
-    install_github("devtools")
     install_github("iandennismiller/i0")
 
 # usage
