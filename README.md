@@ -2,14 +2,14 @@
 
 ## installation
 
-```R
+```r
 install.packages("devtools")
 install_github("i0", "iandennismiller")
 ```
 
 ## usage
 
-```R
+```r
 library('i0')
 
 # load archival data

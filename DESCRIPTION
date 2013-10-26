@@ -1,6 +1,7 @@
 Package: i0
 Title: i-zero
 Description: Page-Gould, E. & Miller, I. D. (2013) implementation of i-zero.
+URL: http://www.github.com/iandennismiller/i0
 Version: 0.1
 Author: Ian Dennis Miller <i.miller@utoronto.ca>
 Maintainer: Ian Dennis Miller <i.miller@utoronto.ca>
