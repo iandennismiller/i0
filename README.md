@@ -28,3 +28,25 @@
     cd i0
     make test
     make check
+
+# Reference
+
+## R packaging
+
+- http://cran.r-project.org/doc/manuals/R-exts.html
+- http://cran.r-project.org/doc/contrib/Leisch-CreatingPackages.pdf
+- http://adv-r.had.co.nz/Package-basics.html
+
+## devtools
+
+- http://cran.r-project.org/web/packages/devtools/devtools.pdf
+- https://github.com/hadley/devtools
+
+## roxygen2
+
+- http://cran.r-project.org/web/packages/roxygen2/index.html
+- http://www.rstudio.com/ide/docs/packages/documentation
+
+## testthat
+
+- http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf
