@@ -13,8 +13,6 @@ target <- function(x, ...) UseMethod("target")
 ######
 # generic handlers
 
-#' Create an target object.
-#'
 #' @export
 print.target <- function(x, ...)
 {
@@ -24,8 +22,6 @@ print.target <- function(x, ...)
     print(x$coefficients)
 }
 
-#' Create an target object.
-#'
 #' @export
 summary.target <- function(object, ...)
 {
@@ -41,8 +37,6 @@ summary.target <- function(object, ...)
 res
 }
 
-#' Create an target object.
-#'
 #' @export
 print.summary.target <- function(x, ...)
 {
@@ -52,8 +46,6 @@ print.summary.target <- function(x, ...)
     printCoefmat(x$coefficients, P.value=TRUE, has.Pvalue=TRUE)
 }
 
-#' Create an target object.
-#'
 #' @export
 predict.target <- function(object, newdata=NULL, ...)
 {
