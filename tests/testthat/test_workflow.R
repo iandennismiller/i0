@@ -1,7 +1,3 @@
-library("testthat")
-library("devtools")
-dev_mode()
-load_all()
 context("workflow")
 
 data(cats, package="MASS")

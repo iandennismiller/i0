@@ -1,6 +1,6 @@
 \name{target}
 \alias{target}
-\title{Create an target object.}
+\title{Create a target object.}
 \usage{
   target(x, ...)
 }
@@ -11,7 +11,7 @@
   target object
 }
 \description{
-  Create an target object.
+  Create a target object.
 }
 \keyword{character}
 

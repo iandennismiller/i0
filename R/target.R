@@ -1,7 +1,7 @@
 # For now, this is just the code stub from:
 # http://cran.r-project.org/doc/contrib/Leisch-CreatingPackages.pdf
 
-#' Create an target object.
+#' Create a target object.
 #'
 #' @param x input model function specification
 #' y data frame
@@ -91,20 +91,19 @@ linmodEst <- function(x, y)
 ################
 # public methods
 
-#' Create an target object.
+#' Create a target object.
 #'
 #' @param x input model function specification
 #' y data frame
 #' @return target object
 #' @keywords character
+#' @export
 #' @examples
 #' data(cats, package="MASS")
 #' x = cbind(Const=1, Bwt=cats$Bwt)
 #' y = cats$Hw
 #' mod1 <- target(x, y)
-#' mod1
-#' summary(mod1)
-#' summary(target(Hwt~Bwt*Sex, data=cats))
+#' print(mod1)
 target.default <- function(x, y, ...)
 {
     x <- as.matrix(x)
@@ -116,15 +115,16 @@ target.default <- function(x, y, ...)
     class(est) <- "target"
 est }
 
-#' Create an target object.
+#' Create a target object.
 #'
 #' @param x input model function specification
 #' y data frame
 #' @return target object
 #' @keywords character
+#' @export
 #' @examples
 #' data(cats, package="MASS")
-#' summary(target(Hwt~Bwt*Sex, data=cats))
+#' print(summary(target(Hwt~Bwt*Sex, data=cats)))
 target.formula <- function(formula, data=list(), ...)
 {
     mf <- model.frame(formula=formula, data=data)

@@ -1,6 +1,6 @@
 \name{target.default}
 \alias{target.default}
-\title{Create an target object.}
+\title{Create a target object.}
 \usage{
   target.default(x, y, ...)
 }
@@ -11,16 +11,14 @@
   target object
 }
 \description{
-  Create an target object.
+  Create a target object.
 }
 \examples{
 data(cats, package="MASS")
 x = cbind(Const=1, Bwt=cats$Bwt)
 y = cats$Hw
 mod1 <- target(x, y)
-mod1
-summary(mod1)
-summary(target(Hwt~Bwt*Sex, data=cats))
+print(mod1)
 }
 \keyword{character}
 

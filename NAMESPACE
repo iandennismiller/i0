@@ -1,2 +1,4 @@
 export(target)
+export(target.default)
+export(target.formula)
 import(ggplot2)
