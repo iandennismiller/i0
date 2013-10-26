@@ -4,7 +4,7 @@
 
 In the console of R or RStudio, type the following.
 
-```r
+```R
 install.packages("devtools")
 install_github("i0", "iandennismiller")
 ```
@@ -13,7 +13,7 @@ The `devtools` package is required to install `i0` so the commands above install
 
 ## usage
 
-```r
+```R
 library('i0')
 
 # load archival data
