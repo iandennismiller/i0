@@ -1,17 +1,9 @@
+\docType{package}
 \name{i0}
 \alias{i0}
-\title{Create an i0 object.}
-\usage{
-  i0(x, ...)
-}
-\arguments{
-  \item{x}{input model function specification y data frame}
-}
-\value{
-  i0 object
-}
+\alias{i0-package}
+\title{i0}
 \description{
-  Create an i0 object.
+  i0
 }
-\keyword{character}
 

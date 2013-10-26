@@ -8,7 +8,8 @@ License: MIT
 Depends:
     R (>= 2.15)
 Imports:
-    ggplot2,
-    roxygen2
+    ggplot2
 Collate:
+    'legacy.R'
     'i0.R'
+    'target.R'

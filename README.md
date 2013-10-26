@@ -50,3 +50,8 @@
 ## testthat
 
 - http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf
+
+## CRAN
+
+- http://cran.r-project.org/web/packages/policies.html
+- http://cran.r-project.org/submit.html

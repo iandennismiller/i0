@@ -1,17 +1,17 @@
-\name{i0.default}
-\alias{i0.default}
-\title{Create an i0 object.}
+\name{target}
+\alias{target}
+\title{Create an target object.}
 \usage{
-  i0.default(x, y, ...)
+  target(x, ...)
 }
 \arguments{
   \item{x}{input model function specification y data frame}
 }
 \value{
-  i0 object
+  target object
 }
 \description{
-  Create an i0 object.
+  Create an target object.
 }
 \keyword{character}
 
