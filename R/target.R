@@ -15,6 +15,7 @@ target <- function(x, ...) UseMethod("target")
 
 #' Create an target object.
 #'
+#' @export
 print.target <- function(x, ...)
 {
     cat("Call:\n")
@@ -25,6 +26,7 @@ print.target <- function(x, ...)
 
 #' Create an target object.
 #'
+#' @export
 summary.target <- function(object, ...)
 {
     se <- sqrt(diag(object$vcov))
@@ -41,6 +43,7 @@ res
 
 #' Create an target object.
 #'
+#' @export
 print.summary.target <- function(x, ...)
 {
     cat("Call:\n")
@@ -51,6 +54,7 @@ print.summary.target <- function(x, ...)
 
 #' Create an target object.
 #'
+#' @export
 predict.target <- function(object, newdata=NULL, ...)
 {
     if(is.null(newdata))

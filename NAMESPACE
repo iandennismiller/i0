@@ -1,3 +1,7 @@
+export(predict.target)
+export(print.summary.target)
+export(print.target)
+export(summary.target)
 export(target)
 export(target.default)
 export(target.formula)
