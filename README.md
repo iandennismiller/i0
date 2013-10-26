@@ -17,13 +17,13 @@ data(cats, package="MASS")
 x = cbind(Const=1, Bwt=cats$Bwt)
 y = cats$Hw
 
-# create the i0 object
-my_model = i0(x, y)
+# create the i0 targeted object
+my_model = target(x, y)
 my_model
 
 # investigate summary of results
 summary(my_model)
-summary(i0(Hwt~Bwt*Sex, data=cats))
+summary(target(Hwt~Bwt*Sex, data=cats))
 ```
 
 # Reference
