@@ -46,23 +46,6 @@ print.summary.target <- function(x, ...)
 #################
 # private methods
 
-linmodEst <- function(x, y)
-{
-    ## compute QR-decomposition of x
-    qx <- qr(x)
-    ## compute (x’x)^(-1) x’y
-    coef <- solve.qr(qx, y)
-    ## degrees of freedom and standard deviation of residuals
-    df <- nrow(x)-ncol(x)
-    sigma2 <- sum((y - x%*%coef)^2)/df
-    ## compute sigma^2 * (x’x)^-1
-    vcov <- sigma2 * chol2inv(qx$qr)
-    colnames(vcov) <- rownames(vcov) <- colnames(x)
-    list(coefficients = coef,
-         vcov = vcov,
-         sigma = sqrt(sigma2),
-         df = df)
-}
 
 ################
 # public methods
@@ -87,13 +70,12 @@ target.formula <- function(
 {
     terms = unpack_formula(formula)
     zt = calc_zero_target(terms, data)
-    mean_stderr = calc_estimates(zt, mlm, distro_family)
     obj = list(
         formula = formula,
         call = match.call(),
         terms = terms,
         zero_targeted = zt,
-        estimates = unpack_estimates(mean_stderr)
+        estimates = unpack_estimates(calc_estimates(zt, mlm, distro_family))
         )
     class(obj) = "target"
     obj
@@ -124,51 +106,50 @@ calc_zero_target <- function(terms, data) {
 calc_estimates <- function(zt, mlm, distro_family) {
     if (mlm) {
         with(zt, list(
-            low_low = lmer_mean_stderr(dv ~ (1|ids) + d1_low * d2_low, distro_family),
-            low_high = lmer_mean_stderr(dv ~ (1|ids) + d1_low * d2_high, distro_family),
-            high_low = lmer_mean_stderr(dv ~ (1|ids) + d1_high * d2_low, distro_family),
-            high_high = lmer_mean_stderr(dv ~ (1|ids) + d1_high * d2_high, distro_family)
+            low_low = calc_lmer(dv ~ (1|ids) + d1_low * d2_low, distro_family),
+            low_high = calc_lmer(dv ~ (1|ids) + d1_low * d2_high, distro_family),
+            high_low = calc_lmer(dv ~ (1|ids) + d1_high * d2_low, distro_family),
+            high_high = calc_lmer(dv ~ (1|ids) + d1_high * d2_high, distro_family)
             )
         )
     }
     else {
         with(zt, list(
-            low_low = lm_mean_stderr(dv ~ d1_low * d2_low, distro_family),
-            low_high = lm_mean_stderr(dv ~ d1_low * d2_high, distro_family),
-            high_low = lm_mean_stderr(dv ~ d1_high * d2_low, distro_family),
-            high_high = lm_mean_stderr(dv ~ d1_high * d2_high, distro_family)
+            low_low = calc_lm(dv ~ d1_low * d2_low, distro_family),
+            low_high = calc_lm(dv ~ d1_low * d2_high, distro_family),
+            high_low = calc_lm(dv ~ d1_high * d2_low, distro_family),
+            high_high = calc_lm(dv ~ d1_high * d2_high, distro_family)
             )
         )
     }
 }
 
-unpack_estimates <- function(mean_stderr) {
-    est = list(
+unpack_estimates <- function(estimate) {
+    list(
         low = list(
             low = list(
-                mean = mean_stderr[["low_low"]][["mean"]],
-                stderr = mean_stderr[["low_low"]][["stderr"]]
+                mean = estimate[["low_low"]][["mean"]],
+                stderr = estimate[["low_low"]][["stderr"]]
                 ),
             high = list(
-                mean = mean_stderr[["low_high"]][["mean"]],
-                stderr = mean_stderr[["low_high"]][["stderr"]]
+                mean = estimate[["low_high"]][["mean"]],
+                stderr = estimate[["low_high"]][["stderr"]]
                 )
             ),
         high = list(
             low = list(
-                mean = mean_stderr[["high_low"]][["mean"]],
-                stderr = mean_stderr[["high_low"]][["stderr"]]
+                mean = estimate[["high_low"]][["mean"]],
+                stderr = estimate[["high_low"]][["stderr"]]
                 ),
             high = list(
-                mean = mean_stderr[["high_high"]][["mean"]],
-                stderr = mean_stderr[["high_high"]][["mean"]]
+                mean = estimate[["high_high"]][["mean"]],
+                stderr = estimate[["high_high"]][["mean"]]
                 )
             )
         )
-    est
 }
 
-lm_mean_stderr <- function(spec, distro_family) {
+calc_lm <- function(spec, distro_family) {
     model = glm(spec, na.action="na.exclude", family=distro_family)
     list(
         mean = summary(model)$coefficients[1,1],
@@ -176,7 +157,7 @@ lm_mean_stderr <- function(spec, distro_family) {
     )
 }
 
-lmer_mean_stderr <- function(spec, distro_family) {
+calc_lmer <- function(spec, distro_family) {
     model = lmer(spec, na.action="na.exclude", family=distro_family)
     list(
         mean = attr(model, 'fixef')[[1]],
