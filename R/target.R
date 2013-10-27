@@ -43,43 +43,46 @@ print.summary.target <- function(x, ...)
     printCoefmat(x$coefficients, P.value=TRUE, has.Pvalue=TRUE)
 }
 
+#' @export
+plot.target <- function(x, ...) {
+    display = data.frame(
+        dim1 = c('low', 'low', 'high', 'high'),
+        dim2 = c('low', 'high', 'low', 'high'),
+        means = c(
+            x$estimates$low$low$mean,
+            x$estimates$low$high$mean,
+            x$estimates$high$low$mean,
+            x$estimates$high$high$mean
+        ),
+        ci = c(
+            x$estimates$low$low$stderr,
+            x$estimates$low$high$stderr,
+            x$estimates$high$low$stderr,
+            x$estimates$high$high$stderr
+        )
+    )
+
+    display$dim2 = factor(display$dim2, levels=c('low', 'high'))
+
+    ggplot(display, aes(x=dim2, y=means, group=dim1)) +
+        geom_line(aes(linetype=dim1), size=1) +
+        geom_point(size=3, fill="white") +
+        scale_x_discrete(labels=c(paste("low", x$terms$d2_name), paste("high", x$terms$d2_name))) +
+        scale_linetype(labels=c(paste("high", x$terms$d1_name), paste("low", x$terms$d1_name))) +
+        coord_cartesian(xlim=c(0.8, 2.2)) +
+        xlab(NULL)+
+        ylab(x$terms$dv_name) +
+        geom_errorbar(aes(ymin=means-ci, ymax=means+ci), alpha=0.3, width=.05) +
+        #theme_bw() +
+        opts(title = paste(x$terms$dv_name, " ~ '", x$terms$d1_name, "' and '", x$terms$d2_name, "'", sep="")) +
+        opts(legend.title=theme_blank()) + opts(legend.position=c(.2, .9)) +
+        opts(legend.text = theme_text(size = 12)) +
+        opts(axis.text.x = theme_text(size = 14)) +
+        opts(axis.text.y = theme_text(size = 14))
+}
+
 #################
 # private methods
-
-
-################
-# public methods
-
-#' Create a target object.
-#'
-#' @param x input model function specification
-#' y data frame
-#' @return target object
-#' @keywords character
-#' @export
-#' @examples
-#' data = data.frame(y = c(0, 1, 2), x1 = c(2, 4, 6), x2 = c(3, 6, 9))
-#' t = target(y ~ x1 * x2, data=data)
-#' t$point
-target.formula <- function(
-    formula,
-    data=list(),
-    distro_family="gaussian",
-    mlm=FALSE,
-    ...)
-{
-    terms = unpack_formula(formula)
-    zt = calc_zero_target(terms, data)
-    obj = list(
-        formula = formula,
-        call = match.call(),
-        terms = terms,
-        zero_targeted = zt,
-        estimates = unpack_estimates(calc_estimates(zt, mlm, distro_family))
-        )
-    class(obj) = "target"
-    obj
-}
 
 unpack_formula <- function(formula) {
     terms = names(attr(terms(formula), "factors")[,1])
@@ -152,6 +155,7 @@ unpack_estimates <- function(estimate) {
 calc_lm <- function(spec, distro_family) {
     model = glm(spec, na.action="na.exclude", family=distro_family)
     list(
+        model = model,
         mean = summary(model)$coefficients[1,1],
         stderr = summary(model)$coefficients[1,2]
     )
@@ -160,7 +164,44 @@ calc_lm <- function(spec, distro_family) {
 calc_lmer <- function(spec, distro_family) {
     model = lmer(spec, na.action="na.exclude", family=distro_family)
     list(
+        model = model,
         mean = attr(model, 'fixef')[[1]],
         stderr = attr(summary(model), "coefs")[[1,2]]
     )
+}
+
+################
+# public methods
+
+#' Create a target object.
+#'
+#' @param x input model function specification
+#' y data frame
+#' @return target object
+#' @keywords character
+#' @export
+#' @examples
+#' data = data.frame(y = c(0, 1, 2), x1 = c(2, 4, 6), x2 = c(3, 6, 9))
+#' t = target(y ~ x1 * x2, data=data)
+#' t$point
+target.formula <- function(
+    formula,
+    data=list(),
+    distro_family="gaussian",
+    mlm=FALSE,
+    ...)
+{
+    terms = unpack_formula(formula)
+    zt = calc_zero_target(terms, data)
+    models = calc_estimates(zt, mlm, distro_family)
+    obj = list(
+        formula = formula,
+        call = match.call(),
+        terms = terms,
+        zero_targeted = zt,
+        models = models,
+        estimates = unpack_estimates(models)
+        )
+    class(obj) = "target"
+    obj
 }
