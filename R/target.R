@@ -96,38 +96,64 @@ linmodEst <- function(x, y)
 #' @export
 #' @examples
 #' data(cats, package="MASS")
-#' x = cbind(Const=1, Bwt=cats$Bwt)
-#' y = cats$Hw
-#' mod1 <- target(x, y)
-#' print(mod1)
-target.default <- function(x, y, ...)
-{
-    x <- as.matrix(x)
-    y <- as.numeric(y)
-    est <- linmodEst(x, y)
-    est$fitted.values <- as.vector(x %*% est$coefficients)
-    est$residuals <- y - est$fitted.values
-    est$call <- match.call()
-    class(est) <- "target"
-est }
-
-#' Create a target object.
-#'
-#' @param x input model function specification
-#' y data frame
-#' @return target object
-#' @keywords character
-#' @export
-#' @examples
-#' data(cats, package="MASS")
 #' print(summary(target(Hwt~Bwt*Sex, data=cats)))
-target.formula <- function(formula, data=list(), ...)
+target.formula <- function(formula, data=list(), distro_family="gaussian", ...)
 {
-    mf <- model.frame(formula=formula, data=data)
-    x <- model.matrix(attr(mf, "terms"), data=mf)
-    y <- model.response(mf)
-    est <- target.default(x, y, ...)
-    est$call <- match.call()
-    est$formula <- formula
-    est
+    terms = names(attr(terms(formula), "factors")[,1])
+    dv_name = terms[1]
+    d1_name = terms[2]
+    d2_name = terms[3]
+    dv = data[[dv_name]]
+
+    # zt means "zero targeted"
+    zt = list(
+        d1_high = data[[d1_name]] - sd(data[[d1_name]], na.rm=T),
+        d1_low = data[[d1_name]] + sd(data[[d1_name]], na.rm=T),
+        d2_high = data[[d2_name]] - sd(data[[d2_name]], na.rm=T),
+        d2_low = data[[d2_name]] + sd(data[[d2_name]], na.rm=T)
+        )
+
+    mean_stderr = list(
+        low_low = lm_mean_stderr(dv ~ zt$d1_low * zt$d2_low, distro_family),
+        low_high = lm_mean_stderr(dv ~ zt$d1_low * zt$d2_high, distro_family),
+        high_low = lm_mean_stderr(dv ~ zt$d1_high * zt$d2_low, distro_family),
+        high_high = lm_mean_stderr(dv ~ zt$d1_high * zt$d2_high, distro_family)
+        )
+
+    mean = list(
+        low_low = mean_stderr[["low_low"]][["mean"]],
+        low_high = mean_stderr[["low_high"]][["mean"]],
+        high_low = mean_stderr[["high_low"]][["mean"]],
+        high_high = mean_stderr[["high_high"]][["mean"]]
+        )
+
+    stderr = list(
+        low_low = mean_stderr[["low_low"]][["stderr"]],
+        low_high = mean_stderr[["low_high"]][["stderr"]],
+        high_low = mean_stderr[["high_low"]][["stderr"]],
+        high_high = mean_stderr[["high_high"]][["stderr"]]
+        )
+
+    obj = list(
+        formula = formula,
+        call = match.call(),
+        mean = mean,
+        stderr = stderr
+        )
+    class(obj) = "target"
+    obj
+}
+
+lm_mean_stderr <- function(spec, distro_family) {
+  model <- lm(spec, na.action="na.exclude")
+  ret_mean <- attr(model, 'fixef')[[1]]
+  ret_stderr <- attr(summary(model), "coefs")[[1,2]]
+  list(mean=ret_mean, stderr=ret_stderr)
+}
+
+lmer_mean_stderr <- function(spec, distro_family) {
+  model <- lmer(spec, na.action="na.exclude", family=distro_family)
+  ret_mean <- attr(model, 'fixef')[[1]]
+  ret_stderr <- attr(summary(model), "coefs")[[1,2]]
+  list(mean=ret_mean, stderr=ret_stderr)
 }
