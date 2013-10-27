@@ -2,7 +2,8 @@
 \alias{target.formula}
 \title{Create a target object.}
 \usage{
-  target.formula(formula, data = list(), ...)
+  target.formula(formula, data = list(),
+    distro_family = "gaussian", ...)
 }
 \arguments{
   \item{x}{input model function specification y data frame}
@@ -14,8 +15,9 @@
   Create a target object.
 }
 \examples{
-data(cats, package="MASS")
-print(summary(target(Hwt~Bwt*Sex, data=cats)))
+data = data.frame(y = c(0, 1, 2), x1 = c(2, 4, 6), x2 = c(3, 6, 9))
+t = target(y ~ x1 * x2, data=data)
+t$point
 }
 \keyword{character}
 
