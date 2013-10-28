@@ -18,6 +18,8 @@ install_github("i0", "iandennismiller")
 
 ## usage
 
+### gaussian example
+
 ```R
 library('i0')
 
@@ -35,6 +37,22 @@ t = target(y ~ x1 + x2 + x1 * x2, data=d)
 # explore the results at +/- 1 standard deviation
 summary(t)
 plot(t)
+```
+
+### logistic regression example
+
+```R
+data(baylor_religion)
+formula = religious.homophilly ~ centered.church.friends*centered.income
+logistic.glm <- target(formula, family="binomial", data=baylor_religion)
+summary(logistic.glm)
+```
+
+### plotting scaled and raw values
+
+```R
+plot(logistic.glm)
+plot(logistic.glm, raw=T)
 ```
 
 # for developers
