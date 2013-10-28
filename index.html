@@ -36,10 +36,10 @@
 <span class="c"># the following dataset comes with the i0 package</span>
 <span class="c">data(candy_example)</span>
 
-<span class="c"># create a zero-targeted model 'candy ~ age + height + age * height' using the dataset</span>
+<span class="c"># create a zero-targeted model using the dataset</span>
 <span class="c">zt = target(candy ~ age + height + age * height, data=candy_example)</span>
 
-<span class="c"># explore the results at +/- 1 standard deviation like Aiken and West (1991)</span>
+<span class="c"># explore +/- 1 standard deviation like Aiken and West (1991)</span>
 <span class="c">plot(zt)</span>
 </pre></div>
 
