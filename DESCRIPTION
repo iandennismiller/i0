@@ -14,6 +14,5 @@ Imports:
     stringr
 Recommends: MASS
 Collate:
-    'legacy.R'
     'i0.R'
     'target.R'

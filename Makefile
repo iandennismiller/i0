@@ -1,7 +1,3 @@
-DOC_RENDER="library(knitr); library(markdown); \
-	knit(input='vignettes/foo.Rmd', output='inst/doc/foo.md'); \
-	markdownToHTML(file='inst/doc/foo.md', output='foo.html')"
-
 check:
 	R -e 'library("devtools"); dev_mode(); load_all(); check()'
 
@@ -9,8 +5,10 @@ test:
 	R -e 'library("devtools"); dev_mode(); load_all(); test()'
 
 doc:
-	R -e $(DOC_RENDER)
+	R -f vignettes/make_vignettes.R
+	rm -rf inst/doc/figure
 	mv figure inst/doc
+	rm inst/doc/*.md
 
 .PHONY:
 	all test check

@@ -85,6 +85,11 @@ plot.target <- function(x, ...) {
 #################
 # private methods
 
+#' Unpack an S3 formula to figure out the name of the DV and IVs
+#'
+#' @param formula model specification
+#' y data frame
+#' @return target object
 unpack_formula <- function(formula) {
     terms = names(attr(terms(formula), "factors")[,1])
     list(
@@ -94,6 +99,8 @@ unpack_formula <- function(formula) {
     )
 }
 
+#' undescribed
+#'
 calc_zero_target <- function(terms, data) {
     # zt means "zero targeted"
     zt = data.frame(
@@ -107,6 +114,8 @@ calc_zero_target <- function(terms, data) {
     data.frame(data, zt)
 }
 
+#' undescribed
+#'
 gen_formulas <- function(formula_str, terms) {
     f_low_low = str_replace_all(formula_str, terms$d1_name, "d1_low")
     f_low_low = str_replace_all(f_low_low, terms$d2_name, "d2_low")
@@ -128,6 +137,8 @@ gen_formulas <- function(formula_str, terms) {
     )
 }
 
+#' undescribed
+#'
 calc_estimates <- function(f, zt, mlm, distro_family) {
     if (mlm) {
         fn = calc_lmer
@@ -144,6 +155,8 @@ calc_estimates <- function(f, zt, mlm, distro_family) {
     )
 }
 
+#' undescribed
+#'
 unpack_estimates <- function(estimate) {
     list(
         low = list(
@@ -169,6 +182,8 @@ unpack_estimates <- function(estimate) {
         )
 }
 
+#' undescribed
+#'
 calc_lm <- function(spec, data, distro_family) {
     model = glm(spec, data, na.action="na.exclude", family=distro_family)
     list(
@@ -178,8 +193,10 @@ calc_lm <- function(spec, data, distro_family) {
     )
 }
 
-calc_lmer <- function(spec, distro_family) {
-    model = lmer(spec, na.action="na.exclude", family=distro_family)
+#' undescribed
+#'
+calc_lmer <- function(spec, data, distro_family) {
+    model = lmer(spec, data, na.action="na.exclude", family=distro_family)
     list(
         model = model,
         mean = attr(model, 'fixef')[[1]],
