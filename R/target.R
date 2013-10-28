@@ -1,7 +1,6 @@
 #' Create a target object.
 #'
 #' @param x input model function specification
-#' y data frame
 #' @return target object
 #' @keywords character
 #' @export
@@ -10,12 +9,18 @@ target <- function(x, ...) UseMethod("target")
 ######
 # generic handlers
 
+#' Print a zero-targeted model
+#' 
+#' @param x a zero-targeted model
 #' @export
 print.target <- function(x, ...)
 {
     print(x$estimates)
 }
 
+#' Get mean and stderr information about a zero-targeted model
+#' 
+#' @param object a zero-targeted model
 #' @export
 summary.target <- function(object, ...)
 {
@@ -24,12 +29,20 @@ summary.target <- function(object, ...)
 res
 }
 
-# #' @export
+#' Print a zero-targeted summary
+#'
+#' @param x a zero-targeted summary object
+#' @export
 print.summary.target <- function(x, ...)
 {
     print(x$summary)
 }
 
+#' Plot a zero-targeted model +/- 1 standard deviation.
+#' 
+#' @param x a zero-targeted model object
+#' @param raw boolean indicating whether to plot raw values; defaults to FALSE 
+#'  (i.e. print scaled rather than raw values)
 #' @export
 plot.target <- function(x, raw=F, ...) {
     display = summarize(x)
@@ -65,7 +78,6 @@ plot.target <- function(x, raw=F, ...) {
 #' Unpack an S3 formula to figure out the name of the DV and IVs
 #'
 #' @param formula model specification
-#' y data frame
 #' @return target object
 unpack_formula <- function(formula) {
     terms = names(attr(terms(formula), "factors")[,1])
@@ -76,7 +88,7 @@ unpack_formula <- function(formula) {
     )
 }
 
-#' undescribed
+#' undocumented
 #'
 transform_raw <- function(display, family) {
     if (family == "poisson") {
@@ -102,7 +114,7 @@ transform_raw <- function(display, family) {
     display
 }
 
-#' undescribed
+#' undocumented
 #'
 summarize <- function(x, ...) {
     display = data.frame(
@@ -126,7 +138,7 @@ summarize <- function(x, ...) {
     display
 }
 
-#' undescribed
+#' undocumented
 #'
 calc_zero_target <- function(terms, data) {
     # zt means "zero targeted"
@@ -141,7 +153,7 @@ calc_zero_target <- function(terms, data) {
     data.frame(data, zt)
 }
 
-#' undescribed
+#' undocumented
 #'
 gen_formulas <- function(formula_str, terms) {
     f_low_low = str_replace_all(formula_str, terms$d1_name, "d1_low")
@@ -164,7 +176,7 @@ gen_formulas <- function(formula_str, terms) {
     )
 }
 
-#' undescribed
+#' undocumented
 #'
 calc_estimates <- function(f, zt, mlm, family) {
     if (mlm) {
@@ -182,7 +194,7 @@ calc_estimates <- function(f, zt, mlm, family) {
     )
 }
 
-#' undescribed
+#' undocumented
 #'
 unpack_estimates <- function(estimate) {
     list(
@@ -209,7 +221,7 @@ unpack_estimates <- function(estimate) {
         )
 }
 
-#' undescribed
+#' undocumented
 #'
 calc_lm <- function(spec, data, family) {
     model = glm(spec, data, na.action="na.exclude", family=family)
@@ -220,7 +232,7 @@ calc_lm <- function(spec, data, family) {
     )
 }
 
-#' undescribed
+#' undocumented
 #'
 calc_lmer <- function(spec, data, family) {
     model = lmer(spec, data, na.action="na.exclude", family=family)

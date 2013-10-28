@@ -5,7 +5,7 @@
   target(x, ...)
 }
 \arguments{
-  \item{x}{input model function specification y data frame}
+  \item{x}{input model function specification}
 }
 \value{
   target object

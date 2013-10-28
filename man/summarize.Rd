@@ -1,8 +1,8 @@
-\name{calc_lm}
-\alias{calc_lm}
+\name{summarize}
+\alias{summarize}
 \title{undescribed}
 \usage{
-  calc_lm(spec, data, family)
+  summarize(x, ...)
 }
 \description{
   undescribed

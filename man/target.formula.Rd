@@ -3,7 +3,7 @@
 \title{Create a target object.}
 \usage{
   target.formula(formula, data = list(),
-    distro_family = "gaussian", mlm = FALSE, ...)
+    family = "gaussian", mlm = FALSE, ...)
 }
 \arguments{
   \item{x}{input model function specification y data frame}

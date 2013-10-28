@@ -2,7 +2,7 @@
 \alias{calc_lmer}
 \title{undescribed}
 \usage{
-  calc_lmer(spec, data, distro_family)
+  calc_lmer(spec, data, family)
 }
 \description{
   undescribed
