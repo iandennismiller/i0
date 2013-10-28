@@ -1,6 +1,6 @@
 # i0
 
-*i0* (pronounced "i-zero") provides a simple interface for exploring interactions in linear models. This R package is an implementation of the methods in Page-Gould and Miller (submitted), which extends Aiken and West (1991).
+**i0** (pronounced "i-zero") provides a simple interface for exploring interactions in linear models. This R package is an implementation of the methods in Page-Gould and Miller (submitted), which extends Aiken and West (1991).
 
 ## usage
 
@@ -22,14 +22,14 @@ plot(zt)
 
 ## installation
 
-The *i0* R package is easily installed using R or RStudio. In the R console, load *devtools* and install *i0* from the project website:
+The **i0** R package is easily installed using R or RStudio. In the R console, load **devtools** and install **i0** from the project website:
 
 ```R
 library(devtools)
 install_github("i0", "iandennismiller")
 ```
 
-If you receive the message `Error in library(devtools) : there is no package called devtools’`, you must first install *devtools* (see instructions below) then try again.
+If you receive the message `Error in library(devtools) : there is no package called devtools’`, you must first install **devtools** (see instructions below) then try again.
 
 ```R
 install.packages("devtools")
