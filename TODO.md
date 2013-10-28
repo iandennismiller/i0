@@ -1,0 +1,9 @@
+- write unit tests for a variety of different sorts of formulae
+- complete roxygen2 documentation of functions (no examples yet)
+- use numbers from Page-Gould & Miller as formal tests
+- go back to include examples in roxygen2 documentation, based on tests
+- support for models with categorical variables
+- figure out more robust `make doc` process, because RStudio does not cooperate now
+- blurb on website and readme file explaining the paper, etc
+- need to link from website to package documentation
+- submit to CRAN
