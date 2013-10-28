@@ -11,10 +11,10 @@ library(i0)
 # the following dataset comes with the i0 package
 data(candy_example)
 
-# create a zero-targeted model 'candy ~ age + height + age * height' using the dataset
+# create a zero-targeted model using the dataset
 zt = target(candy ~ age + height + age * height, data=candy_example)
 
-# explore the results at +/- 1 standard deviation like Aiken and West (1991)
+# explore +/- 1 standard deviation like Aiken and West (1991)
 plot(zt)
 ```
 
@@ -29,7 +29,7 @@ library(devtools)
 install_github("i0", "iandennismiller")
 ```
 
-If you receive the message `Error in library(devtools) : there is no package called devtools’`, you must first install **devtools** (see instructions below) then try again.
+If you receive the message `Error in library(devtools) : there is no package called devtools`, you must first install **devtools** (see instructions below) then try again.
 
 ```R
 install.packages("devtools")
