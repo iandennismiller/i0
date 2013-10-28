@@ -1,7 +1,9 @@
 # Examples from Page-Gould and Miller (in preparation)
 
 ```{r}
-library(i0)
+#library(i0)
+library(devtools)
+load_all("..")
 ```
 
 ## The Intercept as an Estimate of Marginal Means
@@ -14,4 +16,14 @@ d$x2 = as.vector(scale(d$x2, center=T))
 t = target(y ~ x1 + x2 + x1 * x2, data=d)
 summary(t)
 plot(t)
+```
+
+## Example with Logistic Regression.
+
+```{r logistic}
+data(baylor_religion)
+formula = religious.homophilly ~ centered.church.friends*centered.income
+logistic.glm <- target(formula, family=binomial, data=baylor_religion)
+summary(logistic.glm)                                                                   
+plot(logistic.glm)
 ```

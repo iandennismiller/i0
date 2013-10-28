@@ -19,7 +19,7 @@ print.target <- function(x, ...)
 #' @export
 summary.target <- function(object, ...)
 {
-    res = list(estimates = summarize(object))
+    res = list(summary = summarize(object))
     class(res) <- "summary.target"
 res
 }
@@ -27,29 +27,7 @@ res
 # #' @export
 print.summary.target <- function(x, ...)
 {
-    print(x$estimates)
-}
-
-summarize <- function(x, ...) {
-    display = data.frame(
-        dim1 = c('low', 'low', 'high', 'high'),
-        dim2 = c('low', 'high', 'low', 'high'),
-        means = c(
-            x$estimates$low$low$mean,
-            x$estimates$low$high$mean,
-            x$estimates$high$low$mean,
-            x$estimates$high$high$mean
-        ),
-        ci = c(
-            x$estimates$low$low$stderr,
-            x$estimates$low$high$stderr,
-            x$estimates$high$low$stderr,
-            x$estimates$high$high$stderr
-        )
-    )
-
-    display$dim2 = factor(display$dim2, levels=c('low', 'high'))
-    display
+    print(x$summary)
 }
 
 #' @export
@@ -92,6 +70,30 @@ unpack_formula <- function(formula) {
 
 #' undescribed
 #'
+summarize <- function(x, ...) {
+    display = data.frame(
+        dim1 = c('low', 'low', 'high', 'high'),
+        dim2 = c('low', 'high', 'low', 'high'),
+        means = c(
+            x$estimates$low$low$mean,
+            x$estimates$low$high$mean,
+            x$estimates$high$low$mean,
+            x$estimates$high$high$mean
+        ),
+        ci = c(
+            x$estimates$low$low$stderr,
+            x$estimates$low$high$stderr,
+            x$estimates$high$low$stderr,
+            x$estimates$high$high$stderr
+        )
+    )
+
+    display$dim2 = factor(display$dim2, levels=c('low', 'high'))
+    display
+}
+
+#' undescribed
+#'
 calc_zero_target <- function(terms, data) {
     # zt means "zero targeted"
     zt = data.frame(
@@ -130,7 +132,7 @@ gen_formulas <- function(formula_str, terms) {
 
 #' undescribed
 #'
-calc_estimates <- function(f, zt, mlm, distro_family) {
+calc_estimates <- function(f, zt, mlm, family) {
     if (mlm) {
         fn = calc_lmer
     }
@@ -139,10 +141,10 @@ calc_estimates <- function(f, zt, mlm, distro_family) {
     }
 
     list(
-        low_low = fn(f$low_low, zt, distro_family),
-        low_high = fn(f$low_high, zt, distro_family),
-        high_low = fn(f$high_low, zt, distro_family),
-        high_high = fn(f$high_high, zt, distro_family)
+        low_low = fn(f$low_low, zt, family),
+        low_high = fn(f$low_high, zt, family),
+        high_low = fn(f$high_low, zt, family),
+        high_high = fn(f$high_high, zt, family)
     )
 }
 
@@ -175,8 +177,8 @@ unpack_estimates <- function(estimate) {
 
 #' undescribed
 #'
-calc_lm <- function(spec, data, distro_family) {
-    model = glm(spec, data, na.action="na.exclude", family=distro_family)
+calc_lm <- function(spec, data, family) {
+    model = glm(spec, data, na.action="na.exclude", family=family)
     list(
         model = model,
         mean = summary(model)$coefficients[1,1],
@@ -186,8 +188,8 @@ calc_lm <- function(spec, data, distro_family) {
 
 #' undescribed
 #'
-calc_lmer <- function(spec, data, distro_family) {
-    model = lmer(spec, data, na.action="na.exclude", family=distro_family)
+calc_lmer <- function(spec, data, family) {
+    model = lmer(spec, data, na.action="na.exclude", family=family)
     list(
         model = model,
         mean = attr(model, 'fixef')[[1]],
@@ -212,7 +214,7 @@ calc_lmer <- function(spec, data, distro_family) {
 target.formula <- function(
     formula,
     data=list(),
-    distro_family="gaussian",
+    family="gaussian",
     mlm=FALSE,
     ...)
 {
@@ -221,7 +223,7 @@ target.formula <- function(
     formula_str = paste(f_str[2], f_str[1], f_str[3])
     std_formulas = gen_formulas(formula_str, terms)
     zt = calc_zero_target(terms, data)
-    models = calc_estimates(std_formulas, zt, mlm, distro_family)
+    models = calc_estimates(std_formulas, zt, mlm, family)
     obj = list(
         formula = formula,
         call = match.call(),
