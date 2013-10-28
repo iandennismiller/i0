@@ -53,10 +53,10 @@
 <span class="c">data(simulated_gaussian_centered)</span>
 
 <span class="c"># create a zero-targeted model</span>
-<span class="c">t = target(y ~ x1 + x2 + x1 * x2, data=simulated_gaussian_centered)</span>
+<span class="c">zt = target(y ~ x1 + x2 + x1 * x2, data=simulated_gaussian_centered)</span>
 
 <span class="c"># explore the results at +/- 1 standard deviation</span>
-<span class="c">plot(t)</span>
+<span class="c">plot(zt)</span>
 </pre></div>
 
 <h2>example output</h2>
