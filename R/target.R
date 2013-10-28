@@ -221,8 +221,8 @@ unpack_estimates <- function(estimate) {
         )
 }
 
-#' undocumented
-#'
+# undocumented
+#
 calc_lm <- function(spec, data, family) {
     model = glm(spec, data, na.action="na.exclude", family=family)
     list(
@@ -232,8 +232,8 @@ calc_lm <- function(spec, data, family) {
     )
 }
 
-#' undocumented
-#'
+# undocumented
+#
 calc_lmer <- function(spec, data, family) {
     model = lmer(spec, data, na.action="na.exclude", family=family)
     list(
