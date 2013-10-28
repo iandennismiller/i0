@@ -75,10 +75,10 @@ plot.target <- function(x, raw=F, ...) {
 #################
 # private methods
 
-#' Unpack an S3 formula to figure out the name of the DV and IVs
-#'
-#' @param formula model specification
-#' @return target object
+# Unpack an S3 formula to figure out the name of the DV and IVs
+#
+# @param formula model specification
+# @return target object
 unpack_formula <- function(formula) {
     terms = names(attr(terms(formula), "factors")[,1])
     list(
@@ -88,8 +88,8 @@ unpack_formula <- function(formula) {
     )
 }
 
-#' undocumented
-#'
+# undocumented
+#
 transform_raw <- function(display, family) {
     if (family == "poisson") {
         b0 = display$means - display$ci
@@ -114,8 +114,8 @@ transform_raw <- function(display, family) {
     display
 }
 
-#' undocumented
-#'
+# undocumented
+#
 summarize <- function(x, ...) {
     display = data.frame(
         dim1 = c('low', 'low', 'high', 'high'),
@@ -138,8 +138,8 @@ summarize <- function(x, ...) {
     display
 }
 
-#' undocumented
-#'
+# undocumented
+#
 calc_zero_target <- function(terms, data) {
     # zt means "zero targeted"
     zt = data.frame(
@@ -153,8 +153,8 @@ calc_zero_target <- function(terms, data) {
     data.frame(data, zt)
 }
 
-#' undocumented
-#'
+# undocumented
+#
 gen_formulas <- function(formula_str, terms) {
     f_low_low = str_replace_all(formula_str, terms$d1_name, "d1_low")
     f_low_low = str_replace_all(f_low_low, terms$d2_name, "d2_low")
@@ -176,8 +176,8 @@ gen_formulas <- function(formula_str, terms) {
     )
 }
 
-#' undocumented
-#'
+# undocumented
+#
 calc_estimates <- function(f, zt, mlm, family) {
     if (mlm) {
         fn = calc_lmer
@@ -194,8 +194,8 @@ calc_estimates <- function(f, zt, mlm, family) {
     )
 }
 
-#' undocumented
-#'
+# undocumented
+#
 unpack_estimates <- function(estimate) {
     list(
         low = list(
