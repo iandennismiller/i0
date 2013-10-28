@@ -21,23 +21,20 @@ install_github("i0", "iandennismiller")
 ### gaussian example
 
 ```R
-library('i0')
+# load the i0 library
+require('i0')
 
-# load archival data
-data(simulated_gaussian_data)
-d = simulated_gaussian_data
+# we will use this simulation data (i.e. archival data)
+data(simulated_gaussian_centered)
 
-# center our variables of interest
-d$x1 = as.vector(scale(d$x1, center=T))
-d$x2 = as.vector(scale(d$x2, center=T))
-
-# create a zero-targeted model
-t = target(y ~ x1 + x2 + x1 * x2, data=d)
+# create a zero-targeted model using simulation data
+t = target(y ~ x1 + x2 + x1 * x2, data=simulated_gaussian_centered)
 
 # explore the results at +/- 1 standard deviation
-summary(t)
 plot(t)
 ```
+
+![gaussian results](http://iandennismiller.github.io/i0/gaussian_sim.png)
 
 ### logistic regression example
 
@@ -55,9 +52,11 @@ plot(logistic.glm)
 plot(logistic.glm, raw=T)
 ```
 
-# for developers
+## support
 
-## source code
+Please visit the [issue tracker](https://github.com/iandennismiller/i0/issues) on github to report a problem.
+
+## for developers
 
     git clone http://www.github.com/iandennismiller/i0
     cd i0
