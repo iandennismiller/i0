@@ -23,7 +23,23 @@ plot(t)
 ```{r logistic}
 data(baylor_religion)
 formula = religious.homophilly ~ centered.church.friends*centered.income
-logistic.glm <- target(formula, family=binomial, data=baylor_religion)
-summary(logistic.glm)                                                                   
+logistic.glm <- target(formula, family="binomial", data=baylor_religion)
+summary(logistic.glm)
 plot(logistic.glm)
+```
+
+```{r logistic_raw}
+plot(logistic.glm, raw=T)
+```
+
+## Poisson Regression
+
+```{r poisson}
+poisson.glm <- target( children ~ marital.status*sex, family="poisson", data=baylor_religion )
+summary(poisson.glm)
+plot(poisson.glm)
+```
+
+```{r poisson_raw}
+plot(poisson.glm, raw=T)
 ```

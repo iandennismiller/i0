@@ -31,8 +31,35 @@ print.summary.target <- function(x, ...)
 }
 
 #' @export
-plot.target <- function(x, ...) {
+plot.target <- function(x, raw=F, ...) {
     display = summarize(x)
+    if (raw) {
+        if (x$family == "poisson") {
+            b0 = display$means - display$ci
+            display$ymins = exp(b0)
+            b0 = display$means + display$ci
+            display$ymaxs = exp(b0)
+            b0 = display$means
+            display$means = exp(b0)
+        }
+        else if (x$family == "binomial") {
+            b0 = display$means - display$ci
+            display$ymins = exp(b0) / (1 + exp(b0))
+            b0 = display$means + display$ci
+            display$ymaxs = exp(b0) / (1 + exp(b0))
+            b0 = display$means
+            display$means = exp(b0) / (1 + exp(b0))
+        }
+        else {
+            display$ymins = display$means - display$ci
+            display$ymaxs = display$means + display$ci
+        }
+    }
+    else {
+        display$ymins = display$means - display$ci
+        display$ymaxs = display$means + display$ci
+    }
+
     ggplot(display, aes(x=dim2, y=means, group=dim1)) +
         geom_line(aes(linetype=dim1), size=1) +
         geom_point(size=3, fill="white") +
@@ -41,8 +68,8 @@ plot.target <- function(x, ...) {
         coord_cartesian(xlim=c(0.8, 2.2)) +
         xlab(NULL)+
         ylab(x$terms$dv_name) +
-        geom_errorbar(aes(ymin=means-ci, ymax=means+ci), alpha=0.3, width=.05) +
-        #theme_bw() +
+        theme_bw() +
+        geom_errorbar(aes(ymin=ymins, ymax=ymaxs), alpha=0.3, width=.05) +
         labs(title = paste(x$terms$dv_name, " ~ '", x$terms$d1_name, "' and '", x$terms$d2_name, "'", sep="")) +
         theme(legend.title=element_blank()) +
         theme(legend.position=c(.2, .9)) +
@@ -230,6 +257,7 @@ target.formula <- function(
         terms = terms,
         zero_targeted = zt,
         models = models,
+        family = family,
         estimates = unpack_estimates(models)
         )
     class(obj) = "target"
