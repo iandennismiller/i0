@@ -1,28 +1,18 @@
-## F00!
+# Examples from Page-Gould and Miller (in preparation)
 
 ```{r}
-setwd("/Users/idm/Work/i0")
 library(devtools)
-load_all()
+load_all("..")
 ```
 
-```{r}
-data = data.frame(y = c(0, 1, 2), x1 = c(2, 4, 6), x2 = c(3, 6, 9))
-t = target(y ~ x1 * x2, data=data)
-```
+## The Intercept as an Estimate of Marginal Means
 
-```{r}
-d = c(5, 6, 3, 5, 4, 7, 6, 2, 6, 5)
-```
-
-```{r}
-data(simulated_gaussian_categorical_data)
-d = simulated_gaussian_categorical_data
-```
-
-```{r}
+```{r gaussian_sim}
 data(simulated_gaussian_data)
 d = simulated_gaussian_data
+d$x1 = as.vector(scale(d$x1, center=T))
+d$x2 = as.vector(scale(d$x2, center=T))
 t = target(y ~ x1 + x2 + x1 * x2, data=d)
+summary(t)
 plot(t)
 ```

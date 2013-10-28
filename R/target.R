@@ -1,5 +1,3 @@
-require(stringr)
-
 #' Create a target object.
 #'
 #' @param x input model function specification
@@ -21,27 +19,41 @@ print.target <- function(x, ...)
 #' @export
 summary.target <- function(object, ...)
 {
+    #print(object)
+    #print(str(object))
+    print(object$estimates$low$low$mean)
+    #print(object)
+    df = data.frame(
+        low = rbind(object$estimates$low$low$mean, object$estimates$low$high$mean),
+        high = rbind(object$estimates$high$low$mean, object$estimates$high$high$mean)
+        )
+    print(df)
+    #res = list(estimates = df)
+
     # http://cran.r-project.org/doc/contrib/Leisch-CreatingPackages.pdf
-    se <- sqrt(diag(object$vcov))
-    tval <- coef(object) / se
-    TAB <- cbind(Estimate = coef(object),
-                 StdErr = se,
-                 t.value = tval,
-                 p.value = 2*pt(-abs(tval), df=object$df))
-    res <- list(call=object$call,
-                coefficients=TAB)
-    class(res) <- "summary.target"
-res
+    #se <- sqrt(diag(object$vcov))
+    #tval <- coef(object) / se
+    #TAB <- cbind(Estimate = coef(object),
+    #             StdErr = se,
+    #             t.value = tval,
+    #             p.value = 2*pt(-abs(tval), df=object$df))
+    #res <- list(call=object$call,
+    #            coefficients=TAB)
+    #class(res) <- "summary.target"
+#res
 }
 
-#' @export
+# #' @export
 print.summary.target <- function(x, ...)
 {
-    # http://cran.r-project.org/doc/contrib/Leisch-CreatingPackages.pdf
-    cat("Call:\n")
-    print(x$call)
-    cat("\n")
-    printCoefmat(x$coefficients, P.value=TRUE, has.Pvalue=TRUE)
+    str(x)
+    #df = data.frame(
+    #    low = cbind(x$low$low$mean, x$low$high$mean),
+    #    high = cbind(x$high$low$mean, x$high$high$mean)
+    #    )
+    print(x$low$low$mean)
+    #res = list(estimates = df)
+    #print(res)
 }
 
 #' @export
@@ -117,6 +129,7 @@ calc_zero_target <- function(terms, data) {
 #' undescribed
 #'
 gen_formulas <- function(formula_str, terms) {
+    require(stringr)
     f_low_low = str_replace_all(formula_str, terms$d1_name, "d1_low")
     f_low_low = str_replace_all(f_low_low, terms$d2_name, "d2_low")
 

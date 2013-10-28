@@ -1,3 +1,6 @@
+all: check doc
+	@echo done
+
 check:
 	R -e 'library("devtools"); dev_mode(); load_all(); check()'
 
@@ -11,4 +14,4 @@ doc:
 	rm inst/doc/*.md
 
 .PHONY:
-	all test check
+	all test check doc
