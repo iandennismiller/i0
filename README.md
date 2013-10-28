@@ -50,12 +50,3 @@ Please visit the [issue tracker](https://github.com/iandennismiller/i0/issues) o
 Aiken, L. S., & West, S. G. (1991). Multiple regression: Testing and interpreting interactions. Sage Publications, Inc.
 
 Page-Gould, E., & Miller, I. D. (submitted). Zeroing in on the intercept: Estimating marginal means and standard errors with linear models.
-
-## for developers
-
-Browse the [Source Code](https://github.com/iandennismiller/i0) or check out the git repo:
-
-    git clone http://www.github.com/iandennismiller/i0
-    cd i0
-    make test
-    make check
