@@ -1,9 +1,9 @@
 # Examples from Page-Gould and Miller (in preparation)
 
 ```{r}
-#library(i0)
-library(devtools)
-load_all("..")
+library(i0)
+#library(devtools)
+#load_all("..")
 ```
 
 ## The Intercept as an Estimate of Marginal Means

@@ -34,26 +34,7 @@ print.summary.target <- function(x, ...)
 plot.target <- function(x, raw=F, ...) {
     display = summarize(x)
     if (raw) {
-        if (x$family == "poisson") {
-            b0 = display$means - display$ci
-            display$ymins = exp(b0)
-            b0 = display$means + display$ci
-            display$ymaxs = exp(b0)
-            b0 = display$means
-            display$means = exp(b0)
-        }
-        else if (x$family == "binomial") {
-            b0 = display$means - display$ci
-            display$ymins = exp(b0) / (1 + exp(b0))
-            b0 = display$means + display$ci
-            display$ymaxs = exp(b0) / (1 + exp(b0))
-            b0 = display$means
-            display$means = exp(b0) / (1 + exp(b0))
-        }
-        else {
-            display$ymins = display$means - display$ci
-            display$ymaxs = display$means + display$ci
-        }
+        display = transform_raw(display, x$family)
     }
     else {
         display$ymins = display$means - display$ci
@@ -93,6 +74,32 @@ unpack_formula <- function(formula) {
         d1_name = terms[2],
         d2_name = terms[3]
     )
+}
+
+#' undescribed
+#'
+transform_raw <- function(display, family) {
+    if (family == "poisson") {
+        b0 = display$means - display$ci
+        display$ymins = exp(b0)
+        b0 = display$means + display$ci
+        display$ymaxs = exp(b0)
+        b0 = display$means
+        display$means = exp(b0)
+    }
+    else if (family == "binomial") {
+        b0 = display$means - display$ci
+        display$ymins = exp(b0) / (1 + exp(b0))
+        b0 = display$means + display$ci
+        display$ymaxs = exp(b0) / (1 + exp(b0))
+        b0 = display$means
+        display$means = exp(b0) / (1 + exp(b0))
+    }
+    else {
+        display$ymins = display$means - display$ci
+        display$ymaxs = display$means + display$ci
+    }
+    display
 }
 
 #' undescribed
