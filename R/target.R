@@ -132,7 +132,6 @@ calc_zero_target <- function(terms, data) {
 #' undescribed
 #'
 gen_formulas <- function(formula_str, terms) {
-    require(stringr)
     f_low_low = str_replace_all(formula_str, terms$d1_name, "d1_low")
     f_low_low = str_replace_all(f_low_low, terms$d2_name, "d2_low")
 
