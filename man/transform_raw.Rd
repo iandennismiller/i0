@@ -1,10 +1,10 @@
 \name{transform_raw}
 \alias{transform_raw}
-\title{undescribed}
+\title{undocumented}
 \usage{
   transform_raw(display, family)
 }
 \description{
-  undescribed
+  undocumented
 }
 

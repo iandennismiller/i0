@@ -1,10 +1,10 @@
 \name{unpack_estimates}
 \alias{unpack_estimates}
-\title{undescribed}
+\title{undocumented}
 \usage{
   unpack_estimates(estimate)
 }
 \description{
-  undescribed
+  undocumented
 }
 

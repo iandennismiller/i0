@@ -5,7 +5,7 @@
   unpack_formula(formula)
 }
 \arguments{
-  \item{formula}{model specification y data frame}
+  \item{formula}{model specification}
 }
 \value{
   target object

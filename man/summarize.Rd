@@ -1,10 +1,10 @@
 \name{summarize}
 \alias{summarize}
-\title{undescribed}
+\title{undocumented}
 \usage{
   summarize(x, ...)
 }
 \description{
-  undescribed
+  undocumented
 }
 

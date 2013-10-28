@@ -1,10 +1,10 @@
 \name{calc_lm}
 \alias{calc_lm}
-\title{undescribed}
+\title{undocumented}
 \usage{
   calc_lm(spec, data, family)
 }
 \description{
-  undescribed
+  undocumented
 }
 

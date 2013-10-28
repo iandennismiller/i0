@@ -1,10 +1,10 @@
 \name{calc_lmer}
 \alias{calc_lmer}
-\title{undescribed}
+\title{undocumented}
 \usage{
   calc_lmer(spec, data, family)
 }
 \description{
-  undescribed
+  undocumented
 }
 

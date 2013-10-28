@@ -1,10 +1,10 @@
 \name{calc_zero_target}
 \alias{calc_zero_target}
-\title{undescribed}
+\title{undocumented}
 \usage{
   calc_zero_target(terms, data)
 }
 \description{
-  undescribed
+  undocumented
 }
 
