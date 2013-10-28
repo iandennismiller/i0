@@ -10,7 +10,7 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>I0 by iandennismiller</title>
+    <title>i0 by iandennismiller</title>
   </head>
 
   <body>
@@ -22,60 +22,72 @@
           <h2>i0 is the zero-targeting module for R that puts you in charge of your intercept.</h2>
         </header>
 
-        <!--<section id="downloads" class="clearfix">
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/iandennismiller/i0/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/iandennismiller/i0/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
           <a href="https://github.com/iandennismiller/i0" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>-->
+        </section>
 
         <hr>
 
         <section id="main_content">
+          <p><strong>i0</strong> (pronounced "i-zero") provides a simple interface for exploring interactions in linear models. This R package is an implementation of the methods in Page-Gould and Miller (submitted), which extends Aiken and West (1991).</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>usage</h2>
+
+<div class="highlight highlight-R"><pre><span class="c"># load the i0 library</span>
+<span class="c">library(i0)</span>
+
+<span class="c"># the following dataset comes with the i0 package</span>
+<span class="c">data(candy_example)</span>
+
+<span class="c"># create a zero-targeted model 'candy ~ age + height + age * height' using the dataset</span>
+<span class="c">zt = target(candy ~ age + height + age * height, data=candy_example)</span>
+
+<span class="c"># explore the results at +/- 1 standard deviation like Aiken and West (1991)</span>
+<span class="c">plot(zt)</span>
+</pre></div>
+
+<p><img src="http://iandennismiller.github.io/i0/gaussian_sim.png" alt="gaussian results"></p>
+
 <h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>installation</h2>
 
-<p>In the console of R or RStudio, type the following.</p>
+<p>The <strong>i0</strong> R package is easily installed using R or RStudio. In the R console, load <strong>devtools</strong> and install <strong>i0</strong> from the project website:</p>
 
-<div class="highlight highlight-R"><pre><span class="c">require("devtools")</span>
+<div class="highlight highlight-R"><pre><span class="c">library(devtools)</span>
 <span class="c">install_github("i0", "iandennismiller")</span>
 </pre></div>
 
-<p>The <code>devtools</code> package is required to install <code>i0</code> so if the command above does not work, then install <code>devtools</code> first and try again:</p>
+<p>If you receive the message <code>Error in library(devtools) : there is no package called devtools’</code>, you must first install <strong>devtools</strong> (see instructions below) then try again.</p>
 
 <div class="highlight highlight-R"><pre><span class="c">install.packages("devtools")</span>
 </pre></div>
 
 <h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>usage</h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>documentation</h2>
 
-<div class="highlight highlight-R"><pre><span class="c">library('i0')</span>
+<ul>
+<li><a href="https://github.com/iandennismiller/i0/wiki/Examples">Examples</a></li>
+<li><a href="http://iandennismiller.github.io/i0">Project Website</a></li>
+<li><a href="https://github.com/iandennismiller/i0">Source Code</a></li>
+</ul><h2>
+<a name="support" class="anchor" href="#support"><span class="octicon octicon-link"></span></a>support</h2>
 
-<span class="c"># load archival data</span>
-<span class="c">data(simulated_gaussian_centered)</span>
+<p>Please visit the <a href="https://github.com/iandennismiller/i0/issues">issue tracker</a> on github to report a problem.</p>
 
-<span class="c"># create a zero-targeted model</span>
-<span class="c">zt = target(y ~ x1 + x2 + x1 * x2, data=simulated_gaussian_centered)</span>
+<h2>
+<a name="references" class="anchor" href="#references"><span class="octicon octicon-link"></span></a>references</h2>
 
-<span class="c"># explore the results at +/- 1 standard deviation</span>
-<span class="c">plot(zt)</span>
-</pre></div>
+<p>Aiken, L. S., &amp; West, S. G. (1991). Multiple regression: Testing and interpreting interactions. Sage Publications, Inc.</p>
 
-<h2>example output</h2>
-
-<p>Create interaction plots like this:</p>
-
-<p><center><img src="gaussian_sim.png"></center></p>
-
-<h2>support</h2>
-
-<p>
-	Please visit the <a href="https://github.com/iandennismiller/i0/issues">issue tracker</a> on github to report a problem.
-</p>
+<p>Page-Gould, E., &amp; Miller, I. D. (submitted). Zeroing in on the intercept: Estimating marginal means and standard errors with linear models.</p>
 
 <h2>
 <a name="for-developers" class="anchor" href="#for-developers"><span class="octicon octicon-link"></span></a>for developers</h2>
 
-<p>
-<a href="https://github.com/iandennismiller/i0">Browse the source code</a> or clone the git repo:
-</p>
+<p>Browse the <a href="https://github.com/iandennismiller/i0">Source Code</a> or check out the git repo:</p>
 
 <pre><code>git clone http://www.github.com/iandennismiller/i0
 cd i0
@@ -85,7 +97,7 @@ make check
         </section>
 
         <footer>
-          I0 is maintained by <a href="https://github.com/iandennismiller">iandennismiller</a><br>
+          i0 is maintained by <a href="https://github.com/iandennismiller">iandennismiller</a><br>
           This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
         </footer>
 
