@@ -19,45 +19,18 @@ print.target <- function(x, ...)
 #' @export
 summary.target <- function(object, ...)
 {
-    #print(object)
-    #print(str(object))
-    print(object$estimates$low$low$mean)
-    #print(object)
-    df = data.frame(
-        low = rbind(object$estimates$low$low$mean, object$estimates$low$high$mean),
-        high = rbind(object$estimates$high$low$mean, object$estimates$high$high$mean)
-        )
-    print(df)
-    #res = list(estimates = df)
-
-    # http://cran.r-project.org/doc/contrib/Leisch-CreatingPackages.pdf
-    #se <- sqrt(diag(object$vcov))
-    #tval <- coef(object) / se
-    #TAB <- cbind(Estimate = coef(object),
-    #             StdErr = se,
-    #             t.value = tval,
-    #             p.value = 2*pt(-abs(tval), df=object$df))
-    #res <- list(call=object$call,
-    #            coefficients=TAB)
-    #class(res) <- "summary.target"
-#res
+    res = list(estimates = summarize(object))
+    class(res) <- "summary.target"
+res
 }
 
 # #' @export
 print.summary.target <- function(x, ...)
 {
-    str(x)
-    #df = data.frame(
-    #    low = cbind(x$low$low$mean, x$low$high$mean),
-    #    high = cbind(x$high$low$mean, x$high$high$mean)
-    #    )
-    print(x$low$low$mean)
-    #res = list(estimates = df)
-    #print(res)
+    print(x$estimates)
 }
 
-#' @export
-plot.target <- function(x, ...) {
+summarize <- function(x, ...) {
     display = data.frame(
         dim1 = c('low', 'low', 'high', 'high'),
         dim2 = c('low', 'high', 'low', 'high'),
@@ -76,9 +49,12 @@ plot.target <- function(x, ...) {
     )
 
     display$dim2 = factor(display$dim2, levels=c('low', 'high'))
+    display
+}
 
-    title_str = paste(x$terms$dv_name, " ~ '", x$terms$d1_name, "' and '", x$terms$d2_name, "'", sep="")
-
+#' @export
+plot.target <- function(x, ...) {
+    display = summarize(x)
     ggplot(display, aes(x=dim2, y=means, group=dim1)) +
         geom_line(aes(linetype=dim1), size=1) +
         geom_point(size=3, fill="white") +
@@ -89,7 +65,7 @@ plot.target <- function(x, ...) {
         ylab(x$terms$dv_name) +
         geom_errorbar(aes(ymin=means-ci, ymax=means+ci), alpha=0.3, width=.05) +
         #theme_bw() +
-        labs(title = title_str) +
+        labs(title = paste(x$terms$dv_name, " ~ '", x$terms$d1_name, "' and '", x$terms$d2_name, "'", sep="")) +
         theme(legend.title=element_blank()) +
         theme(legend.position=c(.2, .9)) +
         theme(legend.text = element_text(size = 12)) +
