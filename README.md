@@ -18,7 +18,7 @@ install_github("i0", "iandennismiller")
 
 ## usage
 
-### gaussian example
+### minimal example (gaussian)
 
 ```R
 # load the i0 library
@@ -28,10 +28,10 @@ require('i0')
 data(simulated_gaussian_centered)
 
 # create a zero-targeted model using simulation data
-t = target(y ~ x1 + x2 + x1 * x2, data=simulated_gaussian_centered)
+zt = target(y ~ x1 + x2 + x1 * x2, data=simulated_gaussian_centered)
 
 # explore the results at +/- 1 standard deviation
-plot(t)
+plot(zt)
 ```
 
 ![gaussian results](http://iandennismiller.github.io/i0/gaussian_sim.png)
