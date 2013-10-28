@@ -50,18 +50,12 @@
 <div class="highlight highlight-R"><pre><span class="c">library('i0')</span>
 
 <span class="c"># load archival data</span>
-<span class="c">data(simulated_gaussian_data)</span>
-<span class="c">d = simulated_gaussian_data</span>
-
-<span class="c"># center our variables of interest</span>
-<span class="c">d$x1 = as.vector(scale(d$x1, center=T))</span>
-<span class="c">d$x2 = as.vector(scale(d$x2, center=T))</span>
+<span class="c">data(simulated_gaussian_centered)</span>
 
 <span class="c"># create a zero-targeted model</span>
-<span class="c">t = target(y ~ x1 + x2 + x1 * x2, data=d)</span>
+<span class="c">t = target(y ~ x1 + x2 + x1 * x2, data=simulated_gaussian_centered)</span>
 
 <span class="c"># explore the results at +/- 1 standard deviation</span>
-<span class="c">summary(t)</span>
 <span class="c">plot(t)</span>
 </pre></div>
 
