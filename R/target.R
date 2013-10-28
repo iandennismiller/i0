@@ -77,6 +77,8 @@ plot.target <- function(x, ...) {
 
     display$dim2 = factor(display$dim2, levels=c('low', 'high'))
 
+    title_str = paste(x$terms$dv_name, " ~ '", x$terms$d1_name, "' and '", x$terms$d2_name, "'", sep="")
+
     ggplot(display, aes(x=dim2, y=means, group=dim1)) +
         geom_line(aes(linetype=dim1), size=1) +
         geom_point(size=3, fill="white") +
@@ -87,11 +89,12 @@ plot.target <- function(x, ...) {
         ylab(x$terms$dv_name) +
         geom_errorbar(aes(ymin=means-ci, ymax=means+ci), alpha=0.3, width=.05) +
         #theme_bw() +
-        opts(title = paste(x$terms$dv_name, " ~ '", x$terms$d1_name, "' and '", x$terms$d2_name, "'", sep="")) +
-        opts(legend.title=theme_blank()) + opts(legend.position=c(.2, .9)) +
-        opts(legend.text = theme_text(size = 12)) +
-        opts(axis.text.x = theme_text(size = 14)) +
-        opts(axis.text.y = theme_text(size = 14))
+        labs(title = title_str) +
+        theme(legend.title=element_blank()) +
+        theme(legend.position=c(.2, .9)) +
+        theme(legend.text = element_text(size = 12)) +
+        theme(axis.text.x = element_text(size = 14)) +
+        theme(axis.text.y = element_text(size = 14))
 }
 
 #################
