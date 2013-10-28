@@ -1,5 +1,4 @@
-# For now, this is just the code stub from:
-# http://cran.r-project.org/doc/contrib/Leisch-CreatingPackages.pdf
+require(stringr)
 
 #' Create a target object.
 #'
@@ -22,6 +21,7 @@ print.target <- function(x, ...)
 #' @export
 summary.target <- function(object, ...)
 {
+    # http://cran.r-project.org/doc/contrib/Leisch-CreatingPackages.pdf
     se <- sqrt(diag(object$vcov))
     tval <- coef(object) / se
     TAB <- cbind(Estimate = coef(object),
@@ -37,6 +37,7 @@ res
 #' @export
 print.summary.target <- function(x, ...)
 {
+    # http://cran.r-project.org/doc/contrib/Leisch-CreatingPackages.pdf
     cat("Call:\n")
     print(x$call)
     cat("\n")
@@ -106,25 +107,41 @@ calc_zero_target <- function(terms, data) {
     data.frame(data, zt)
 }
 
-calc_estimates <- function(zt, mlm, distro_family) {
+gen_formulas <- function(formula_str, terms) {
+    f_low_low = str_replace_all(formula_str, terms$d1_name, "d1_low")
+    f_low_low = str_replace_all(f_low_low, terms$d2_name, "d2_low")
+
+    f_low_high = str_replace_all(formula_str, terms$d1_name, "d1_low")
+    f_low_high = str_replace_all(f_low_high, terms$d2_name, "d2_high")
+
+    f_high_low = str_replace_all(formula_str, terms$d1_name, "d1_high")
+    f_high_low = str_replace_all(f_high_low, terms$d2_name, "d2_low")
+
+    f_high_high = str_replace_all(formula_str, terms$d1_name, "d1_high")
+    f_high_high = str_replace_all(f_high_high, terms$d2_name, "d2_high")
+
+    list(
+        low_low = as.formula(f_low_low),
+        low_high = as.formula(f_low_high),
+        high_low = as.formula(f_high_low),
+        high_high = as.formula(f_high_high)
+    )
+}
+
+calc_estimates <- function(f, zt, mlm, distro_family) {
     if (mlm) {
-        with(zt, list(
-            low_low = calc_lmer(dv ~ (1|ids) + d1_low * d2_low, distro_family),
-            low_high = calc_lmer(dv ~ (1|ids) + d1_low * d2_high, distro_family),
-            high_low = calc_lmer(dv ~ (1|ids) + d1_high * d2_low, distro_family),
-            high_high = calc_lmer(dv ~ (1|ids) + d1_high * d2_high, distro_family)
-            )
-        )
+        fn = calc_lmer
     }
     else {
-        with(zt, list(
-            low_low = calc_lm(dv ~ d1_low * d2_low, distro_family),
-            low_high = calc_lm(dv ~ d1_low * d2_high, distro_family),
-            high_low = calc_lm(dv ~ d1_high * d2_low, distro_family),
-            high_high = calc_lm(dv ~ d1_high * d2_high, distro_family)
-            )
-        )
+        fn = calc_lm
     }
+
+    list(
+        low_low = fn(f$low_low, zt, distro_family),
+        low_high = fn(f$low_high, zt, distro_family),
+        high_low = fn(f$high_low, zt, distro_family),
+        high_high = fn(f$high_high, zt, distro_family)
+    )
 }
 
 unpack_estimates <- function(estimate) {
@@ -146,14 +163,14 @@ unpack_estimates <- function(estimate) {
                 ),
             high = list(
                 mean = estimate[["high_high"]][["mean"]],
-                stderr = estimate[["high_high"]][["mean"]]
+                stderr = estimate[["high_high"]][["stderr"]]
                 )
             )
         )
 }
 
-calc_lm <- function(spec, distro_family) {
-    model = glm(spec, na.action="na.exclude", family=distro_family)
+calc_lm <- function(spec, data, distro_family) {
+    model = glm(spec, data, na.action="na.exclude", family=distro_family)
     list(
         model = model,
         mean = summary(model)$coefficients[1,1],
@@ -192,8 +209,11 @@ target.formula <- function(
     ...)
 {
     terms = unpack_formula(formula)
+    f_str = as.character(formula)
+    formula_str = paste(f_str[2], f_str[1], f_str[3])
+    std_formulas = gen_formulas(formula_str, terms)
     zt = calc_zero_target(terms, data)
-    models = calc_estimates(zt, mlm, distro_family)
+    models = calc_estimates(std_formulas, zt, mlm, distro_family)
     obj = list(
         formula = formula,
         call = match.call(),

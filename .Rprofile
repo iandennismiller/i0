@@ -5,11 +5,9 @@
     deparse.max.lines = 2)
 }
 
-if (interactive()) {
-  suppressMessages(require(devtools))
-  suppressMessages(require(testthat))
-}
+suppressMessages(require(devtools))
+suppressMessages(require(testthat))
 
 devtools.name = "Ian Dennis Miller"
-devtools.desc.author: "Ian Dennis Miller <i.miller@@utoronto.ca> [aut, cre]"
+devtools.desc.author = "Ian Dennis Miller <i.miller@@utoronto.ca> [aut, cre]"
 devtools.desc.license = "MIT"

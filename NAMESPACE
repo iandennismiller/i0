@@ -1,4 +1,4 @@
-export(predict.target)
+export(plot.target)
 export(print.summary.target)
 export(print.target)
 export(summary.target)
